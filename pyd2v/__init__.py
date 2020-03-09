@@ -68,10 +68,10 @@ class D2V:
             ]
             self.settings["Location"] = self.settings["Location"].split(",")
             self.settings["Location"] = {
-                "StartFile": int(self.settings["Location"][0]),
-                "StartOffset": int(self.settings["Location"][1]),
-                "EndFile": int(self.settings["Location"][2]),
-                "EndOffset": int(self.settings["Location"][3])
+                "StartFile": self.settings["Location"][0],
+                "StartOffset": self.settings["Location"][1],
+                "EndFile": self.settings["Location"][2],
+                "EndOffset": self.settings["Location"][3]
             }
             # Data
             self.data = []
