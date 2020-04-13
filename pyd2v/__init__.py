@@ -89,19 +89,7 @@ class D2V:
                     "skip": line[4],
                     "vob": line[5],
                     "cell": line[6],
-                    "flags": [{
-                        "require_previous_gop": bit[0] == "0",
-                        "progressive_frame": bit[1] == "1",
-                        "picture_coding_type": {
-                            "00": "reserved",
-                            "01": "I",
-                            "10": "P",
-                            "11": "B"
-                        }[bit[2] + bit[3]],
-                        "reserved_bits": bit[4] + bit[5],
-                        "tff": bit[6] == "1",
-                        "rff": bit[7] == "1"
-                    } for bit in [bin(int(flag, 16))[2:].zfill(8) for flag in line[7].split(" ")]]
+                    "flags": line[7].split(" ")
                 }
                 data["info"] = {
                     "data_line_signal": data["info"][0],
@@ -110,6 +98,22 @@ class D2V:
                     "first_picture_of_new_gop": data["info"][3] == "1",
                     "reserved": data["info"][4:]
                 }
+                if data["flags"][-1].lower() == "ff":
+                    # ff == end of stream indicator, not an actual frame data byte
+                    data["flags"] = data["flags"][0:-1]
+                data["flags"] = [{
+                    "require_previous_gop": bit[0] == "0",
+                    "progressive_frame": bit[1] == "1",
+                    "picture_coding_type": {
+                        "00": "reserved",
+                        "01": "I",
+                        "10": "P",
+                        "11": "B"
+                    }[bit[2] + bit[3]],
+                    "reserved_bits": bit[4] + bit[5],
+                    "tff": bit[6] == "1",
+                    "rff": bit[7] == "1"
+                } for bit in [bin(int(flag, 16))[2:].zfill(8) for flag in data["flags"]]]
                 self.data.append(data)
             self.data_type = f.readline()[10:]
 
