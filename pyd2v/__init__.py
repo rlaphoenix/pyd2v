@@ -81,16 +81,36 @@ class D2V:
                 if len(line) == 0:
                     break
                 line = line.split(" ", maxsplit=7)
-                self.data.append({
-                    "info": line[0],
+                data = {
+                    "info": bin(int(line[0], 16))[2:].zfill(8),
                     "matrix": line[1],
                     "file": line[2],
                     "position": line[3],
                     "skip": line[4],
                     "vob": line[5],
                     "cell": line[6],
-                    "flags": line[7].split(" ")
-                })
+                    "flags": [{
+                        "require_previous_gop": bit[0] == "0",
+                        "progressive_frame": bit[1] == "1",
+                        "picture_coding_type": {
+                            "00": "reserved",
+                            "01": "I",
+                            "10": "P",
+                            "11": "B"
+                        }[bit[2] + bit[3]],
+                        "reserved_bits": bit[4] + bit[5],
+                        "tff": bit[6] == "1",
+                        "rff": bit[7] == "1"
+                    } for bit in [bin(int(flag, 16))[2:].zfill(8) for flag in line[7].split(" ")]]
+                }
+                data["info"] = {
+                    "data_line_signal": data["info"][0],
+                    "part_of_closed_gop": data["info"][1] == "1",
+                    "part_of_progressive_sequence": data["info"][2] == "1",
+                    "first_picture_of_new_gop": data["info"][3] == "1",
+                    "reserved": data["info"][4:]
+                }
+                self.data.append(data)
             self.data_type = f.readline()[10:]
 
     def __repr__(self):
