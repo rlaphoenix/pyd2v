@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="pyd2v",
-    version="1.0.3",
+    version="1.0.4",
     author="PHOENiX",
     author_email="pragma.exe@gmail.com",
     description="A Python Parser for DGMPGDec's D2V Project Files",
