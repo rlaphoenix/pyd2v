@@ -9,12 +9,9 @@ class D2V:
         :rtype: :class:`D2V`.
         :raises ValueError: if parsing fails
         """
-        # Header
         self.version = None
         self.videos = None
-        # Settings
         self.settings = None
-        # Data
         self.data = None
         self.data_type = None
 
@@ -38,7 +35,6 @@ class D2V:
                 line = f.readline().strip()
                 if len(line) == 0:
                     break
-            # Data
                 key, value = line.split("=", maxsplit=2)
                 if key in ["Stream_Type", "MPEG_Type", "iDCT_Algorithm", "YUVRGB_Scale", "Field_Operation"]:
                     value = int(value)
@@ -70,10 +66,12 @@ class D2V:
                         "EndOffset": end_offset
                     }
                 self.settings[key] = value
+
+            """ Flag Data """
+
             self.data = []
             while True:
                 line = f.readline().strip()
-                # Data Terminate Check
                 if len(line) == 0:
                     break
                 line = line.split(" ", maxsplit=7)
