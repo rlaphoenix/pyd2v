@@ -80,7 +80,7 @@ class D2V:
                 data = {
                     "info": bin(int(line[0], 16))[2:].zfill(8),
                     "matrix": line[1],
-                    "file": line[2],
+                    "file": int(line[2]),
                     "position": int(line[3]),
                     "skip": int(line[4]),
                     "vob": int(line[5]),
