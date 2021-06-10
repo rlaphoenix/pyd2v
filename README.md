@@ -34,6 +34,10 @@ hidden away somewhere in Poetry's Cache directory.
   [poetry]: <https://python-poetry.org/docs>
   [Poetry Docs: Using your virtual environment]: <https://python-poetry.org/docs/basic-usage/#using-your-virtual-environment>
 
+## Usage
+
+This project can be used programmatically by importing `pyd2v`, and as of version 1.1.0 with a `d2v` call in your terminal.
+
 ## Documentation
 
 ### Quick Example
