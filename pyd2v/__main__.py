@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Optional
 
 import jsonpickle
 
@@ -17,6 +18,26 @@ import click
 @click.option("-p", "--pretty", is_flag=True, default=False,
               help="Return D2V data as a prettified object.")
 def main(file: Path, key: Optional[str], json: bool, pretty: bool):
+    """
+    \b
+    Access a D2V file via CLI.
+    For more information see the project at: https://github.com/rlaphoenix/pyd2v
+
+    \b
+    [FILE] is the path to a D2V object you wish to parse.
+    [KEY] is an optional object-path you may wish to use to access data from the D2V.
+          e.g. `settings.Aspect_Ratio` will get you the Aspect Ratio.
+
+    \b
+    Copyright (c) 2020-2021 PHOENiX
+    \b
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+    """
     if not isinstance(file, Path) or not file:
         raise click.BadParameter("File is an invalid value. Must be a pathlib.Path object.", param_hint="file")
     if not file.exists():
