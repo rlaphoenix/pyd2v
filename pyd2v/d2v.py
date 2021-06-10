@@ -26,56 +26,50 @@ class D2V:
             if not self.version.startswith("DGIndexProjectFile"):
                 raise ValueError(f"Expected Version Header, received '{self.version}'")
             self.version = int(self.version[18:])  # strip "DGIndexProjectFile"
-
             self.videos = [f.readline().strip() for _ in range(int(f.readline().strip()))]
 
             if len(f.readline().strip()) > 0:
                 raise ValueError("Unexpected data after reading Header's Video List.")
-            # Settings
+
+            """ Settings Data """
 
             self.settings = {}
-            int_list = ["Stream_Type", "MPEG_Type", "iDCT_Algorithm", "YUVRGB_Scale", "Field_Operation"]
             while True:
                 line = f.readline().strip()
-                # Settings Terminate Check
                 if len(line) == 0:
                     break
-                line = line.split("=", maxsplit=2)
-                self.settings[line[0]] = int(line[1]) if line[0] in int_list else line[1]
-            if self.settings["Stream_Type"] == 2:
-                self.settings["MPEG2_Transport_PID"] = self.settings["MPEG2_Transport_PID"].split(",")
-                self.settings["MPEG2_Transport_PID"] = {
-                    "Video": float(self.settings["MPEG2_Transport_PID"][0]),
-                    "Audio": float(self.settings["MPEG2_Transport_PID"][1]),
-                    "PCR": float(self.settings["MPEG2_Transport_PID"][2])
-                }
-                self.settings["Transport_Packet_Size"] = self.settings["Transport_Packet_Size"].split(",")
-            self.settings["Luminance_Filter"] = self.settings["Luminance_Filter"].split(",")
-            self.settings["Luminance_Filter"] = {
-                "Gamma": float(self.settings["Luminance_Filter"][0]),
-                "Offset": float(self.settings["Luminance_Filter"][1])
-            }
-            self.settings["Clipping"] = [int(x) for x in self.settings["Clipping"].split(",")]
-            if "," in self.settings["Aspect_Ratio"]:
-                self.settings["Aspect_Ratio"] = [
-                    (x if ":" in x else float(x)) for x in self.settings["Aspect_Ratio"].split(",")
-                ]
-            elif ":" not in self.settings["Aspect_Ratio"]:
-                self.settings["Aspect_Ratio"] = float(self.settings["Aspect_Ratio"])
-            self.settings["Picture_Size"] = [int(x) for x in self.settings["Picture_Size"].split("x")]
-            self.settings["Frame_Rate"] = self.settings["Frame_Rate"].split(" ")
-            self.settings["Frame_Rate"] = [
-                self.settings["Frame_Rate"][0],
-                [int(x) for x in self.settings["Frame_Rate"][1].strip("()").split("/")]
-            ]
-            self.settings["Location"] = self.settings["Location"].split(",")
-            self.settings["Location"] = {
-                "StartFile": self.settings["Location"][0],
-                "StartOffset": self.settings["Location"][1],
-                "EndFile": self.settings["Location"][2],
-                "EndOffset": self.settings["Location"][3]
-            }
             # Data
+                key, value = line.split("=", maxsplit=2)
+                if key in ["Stream_Type", "MPEG_Type", "iDCT_Algorithm", "YUVRGB_Scale", "Field_Operation"]:
+                    value = int(value)
+                if key in ["MPEG2_Transport_PID", "Transport_Packet_Size", "Luminance_Filter", "Clipping"]:
+                    value = list(map(int, value.split(",")))
+                if key == "MPEG2_Transport_PID":
+                    value = {"Video": value[0], "Audio": value[1], "PCR": value[2]}
+                elif key == "Luminance_Filter":
+                    value = {"Gamma": value[0], "Offset": value[1]}
+                elif key == "Clipping":
+                    value = list(map(int, value))
+                elif key == "Aspect_Ratio":
+                    if "," in value:
+                        value = [(x if ":" in x else float(x)) for x in value.split(",")]
+                    elif ":" not in value:
+                        value = float(value)
+                elif key == "Picture_Size":
+                    value = list(map(int, value.lower().split("x")))
+                elif key == "Frame_Rate":
+                    rate, num_den = value.split(" ")
+                    num_den = list(map(int, num_den.strip("()").split("/")))
+                    value = [rate, num_den]
+                elif key == "Location":
+                    start_file, start_offset, end_file, end_offset = value.split(",")
+                    value = {
+                        "StartFile": start_file,
+                        "StartOffset": start_offset,
+                        "EndFile": end_file,
+                        "EndOffset": end_offset
+                    }
+                self.settings[key] = value
             self.data = []
             while True:
                 line = f.readline().strip()
