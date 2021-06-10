@@ -35,7 +35,7 @@ def main(file: Path, key: Optional[str], json: bool, pretty: bool):
         raise click.BadParameter("File path does not exist.", param_hint="file")
     if not file.is_file():
         raise click.BadParameter("File path is to a directory, not a file.", param_hint="file")
-    d2v = D2V(str(file))
+    d2v = D2V.load(file)
     if key:
         for path in key.split("."):
             if isinstance(d2v, dict):
