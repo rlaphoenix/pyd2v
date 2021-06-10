@@ -42,24 +42,16 @@ This project can be used programmatically by importing `pyd2v`, and as of versio
 
 ### Quick Example
 
-```
-# pip install pyd2v
+```py
 from pyd2v import D2V
 
 # ...
 
-# Choose Input File
-input_file = "/home/user/Desktop/video.d2v"
-# Parse Input File
-d2v = D2V(filename=input_file)
-# Print D2V Version and Settings Options, which will be shown with the accessible variable names.
-print(d2v)
-# Print Input Video Files
-print(d2v.videos)
-# Print Frame Rate
-print(d2v.settings["Frame_Rate"])
-# Print first frame data
-print(d2v.data[0])
+d2v = D2V(filename="C:/Users/phoenix/Videos/1998_home_video.d2v")
+print(d2v)  # d2v object basic information, e.g. version and settings
+print(d2v.videos)  # input video files
+print(d2v.settings["Frame_Rate"])  # frame rate
+print(d2v.data[0])  # print first frame data
 ```
 
 #### Accessible Variables
