@@ -11,11 +11,12 @@ import click
     max_content_width=116,  # max PEP8 line-width, -4 to adjust for initial indent
 ))
 @click.argument("file", type=Path)
+@click.argument("key", type=str, required=False)
 @click.option("-j", "--json", is_flag=True, default=False,
               help="Return D2V data as a JSON object.")
 @click.option("-p", "--pretty", is_flag=True, default=False,
               help="Return D2V data as a prettified object.")
-def main(file: Path, json: bool, pretty: bool):
+def main(file: Path, key: Optional[str], json: bool, pretty: bool):
     if not isinstance(file, Path) or not file:
         raise click.BadParameter("File is an invalid value. Must be a pathlib.Path object.", param_hint="file")
     if not file.exists():
@@ -23,6 +24,12 @@ def main(file: Path, json: bool, pretty: bool):
     if not file.is_file():
         raise click.BadParameter("File path is to a directory, not a file.", param_hint="file")
     d2v = D2V(str(file))
+    if key:
+        for path in key.split("."):
+            if isinstance(d2v, dict):
+                d2v = d2v[path]
+            else:
+                d2v = getattr(d2v, path)
     if json:
         print(jsonpickle.encode(
             d2v,
