@@ -1,27 +1,27 @@
 [build-system]
-requires = ['poetry-core>=1.0.0']
-build-backend = 'poetry.core.masonry.api'
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = 'pyd2v'
-version = '1.2.0'
+name = "pyd2v"
+version = "1.2.0"
 description = "A Python Parser for DGMPGDec's D2V Project Files."
-license = 'MIT'
-authors = ['PHOENiX <rlaphoenix@pm.me>']
-maintainers = ['PHOENiX <rlaphoenix@pm.me>']
-readme = 'README.md'
-homepage = 'https://github.com/rlaphoenix/pyd2v'
-repository = 'https://github.com/rlaphoenix/pyd2v'
-keywords = ['d2v', 'dgindex', 'dgmpgdec', 'parser', 'mpeg']
+license = "MIT"
+authors = ["PHOENiX <rlaphoenix@pm.me>"]
+maintainers = ["PHOENiX <rlaphoenix@pm.me>"]
+readme = "README.md"
+homepage = "https://github.com/rlaphoenix/pyd2v"
+repository = "https://github.com/rlaphoenix/pyd2v"
+keywords = ["d2v", "dgindex", "dgmpgdec", "parser", "mpeg"]
 classifiers = [
-    'Development Status :: 5 - Production/Stable',
-    'Environment :: Console',
-    'Intended Audience :: Developers',
-    'Natural Language :: English',
-    'Operating System :: OS Independent',
-    'Topic :: Multimedia :: Video'
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Topic :: Multimedia :: Video"
 ]
-include = ['LICENSE', 'README.md']
+include = ["LICENSE", "README.md"]
 
 [tool.poetry.dependencies]
 python = ">=3.6,<4.0"
@@ -29,4 +29,4 @@ click = "^8.0.1"
 jsonpickle = "^2.0.0"
 
 [tool.poetry.scripts]
-d2v = 'pyd2v.__main__:main'
+d2v = "pyd2v.__main__:main"
