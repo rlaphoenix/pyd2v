@@ -135,4 +135,6 @@ class D2V:
     @classmethod
     def load(cls, file: Path):
         """Parse a D2V from a file."""
+        if not isinstance(file, Path):
+            raise TypeError(f"file must be a Path object, not {type(file)}")
         return cls(file.open(mode="r", encoding="utf8"), file)
