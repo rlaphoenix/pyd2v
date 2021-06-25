@@ -2,6 +2,10 @@
   <dictionary name="phoenix">
     <words>
       <w>demux</w>
+      <w>demuxed</w>
+      <w>dgindex</w>
+      <w>mkvextract</w>
+      <w>pulldown</w>
     </words>
   </dictionary>
 </component>
