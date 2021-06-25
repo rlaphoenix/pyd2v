@@ -1,3 +1,5 @@
+import shutil
+import subprocess
 from io import StringIO
 from pathlib import Path
 from typing import TextIO
@@ -138,3 +140,82 @@ class D2V:
         if not isinstance(file, Path):
             raise TypeError(f"file must be a Path object, not {type(file)}")
         return cls(file.open(mode="r", encoding="utf8"), file)
+
+    @staticmethod
+    def _get_d2v(file_path: Path, idct_algo=5, field_op=2, yuv_to_rgb=1) -> Path:
+        """
+        Index an optimal D2V file using DGIndex.
+        Unix systems are supported as long as Wine is installed.
+
+        Note, It will demux the video track from any containers as DGIndex does
+        not support most container formats, and it's generally advised to do so
+        even if it does support a specific container.
+
+        The default extra arguments that gets passed to DGIndex is generally
+        recommended to be untouched. Especially field_op! Please do not change
+        these unless you know what they do. However, you may need to change
+        yuv_to_rgb depending on you're source, but most MPEGs should be fine
+        set to 1 (PC Scale).
+        """
+        is_vob = file_path.suffix.lower() == ".vob"
+        d2v_path = file_path.with_suffix(".d2v")
+        if d2v_path.is_file():
+            return d2v_path
+
+        # demux the mpeg stream if not a .VOB or .MPEG file
+        demuxed_ext = [".mpeg", ".mpg", ".m2v", ".vob"]
+        vid_path = next((x for x in map(file_path.with_suffix, demuxed_ext) if x.exists()), None)
+        if not vid_path:
+            vid_path = file_path.with_suffix(demuxed_ext[0])
+            mkvextract = shutil.which("mkvextract")
+            if not mkvextract:
+                raise RuntimeError(
+                    "Executable 'mkvextract' not found, but is needed for the provided file.\n"
+                    "Install MKVToolNix and make sure it's binaries are in the environment path."
+                )
+            subprocess.run([
+                mkvextract,
+                file_path.name,
+                # TODO: This assumes the track with track-id of 0 is the video. Use pymediainfo to get
+                #       first video track's Track ID. For now assuming 0 will have to do.
+                "tracks", f"0:{vid_path.name}"
+            ], cwd=file_path.parent, check=True)
+
+        # use dgindex to generate a d2v file for the demuxed track
+        dgindex = shutil.which("dgindex")
+        if not dgindex:
+            raise RuntimeError(
+                "Executable 'dgindex' not found, but is needed for the provided file.\n"
+                "Add dgindex.exe to your environment path. Ensure the executable is named `dgindex.exe`."
+            )
+        is_unix = dgindex.startswith("/")
+        if is_unix:
+            # required to do it this way for whatever reason. Directly calling it sometimes fails.
+            dgindex = ["wine", "start", "/wait", "Z:" + dgindex]
+        else:
+            dgindex = [dgindex]
+        subprocess.run(
+            dgindex + [
+                "-ai" if is_vob else "-i", vid_path.name,
+                "-ia", idct_algo,  # iDCT Algorithm, 5=IEEE-1180 Reference
+                "-fo", field_op,  # Field Operation, 2=Ignore Pulldown Flags
+                "-yr", yuv_to_rgb,  # YUV->RGB, 1=PC Scale
+                "-om", "0",  # Output Method, 0=None (just d2v)
+                "-hide", "-exit",  # start hidden and exit when saved
+                "-o", file_path.stem
+            ],
+            cwd=file_path.parent,
+            check=True
+        )
+
+        # replace the Z:\bla\bla paths to /bla/bla unix paths, if on a unix system.
+        # This is needed simply due to how d2vsource loads the video files. On linux it doesn't use wine,
+        # so Z:\ paths obviously won't exist.
+        if is_unix:
+            with open(d2v_path, "rt", encoding="utf8") as f:
+                d2v_content = f.read().splitlines()
+            d2v_content = [(x[2:].replace("\\", "/") if x.startswith("Z:\\") else x) for x in d2v_content]
+            with open(d2v_path, "wt", encoding="utf8") as f:
+                f.write("\n".join(d2v_content))
+
+        return d2v_path
