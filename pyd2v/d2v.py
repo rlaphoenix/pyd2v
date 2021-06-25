@@ -120,8 +120,16 @@ class D2V:
         return f"<D2V version={self.version}, data_type={self.data_type}, settings={self.settings}>"
 
     @classmethod
-    def loads(cls, data: str, path: Path):
-        """Parse a D2V from a blob of string data."""
+    def loads(cls, data: str, path: Path = None):
+        """
+        Parse a D2V from a blob of string data.
+
+        The optional path argument is available to store the file location of
+        the D2V data inside the new D2V object under `D2V.path` class variable.
+        It must be a Path object, or otherwise None.
+        """
+        if not isinstance(path, Path) and path is not None:
+            raise TypeError(f"path must be a Path object (or None), not {type(path)}")
         return cls(StringIO(data), path)
 
     @classmethod
