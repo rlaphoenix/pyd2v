@@ -6,12 +6,14 @@ from typing import TextIO
 class D2V:
     """DGIndex D2V project file."""
 
-    def __init__(self, f: TextIO):
+    def __init__(self, f: TextIO, path: Path):
         """
         Parse a d2v.
-        :param str f: Text IO object of a d2v to be parsed.
+        :param f: Text IO object of a d2v to be parsed.
+        :param path: Path object of the D2V file being parsed.
         :raises ValueError: if parsing fails
         """
+        self.path = path
         self.version = None
         self.videos = None
         self.settings = None
@@ -116,11 +118,11 @@ class D2V:
         return f"<D2V version={self.version}, data_type={self.data_type}, settings={self.settings}>"
 
     @classmethod
-    def loads(cls, data: str):
+    def loads(cls, data: str, path: Path):
         """Parse a D2V from a blob of string data."""
-        return cls(StringIO(data))
+        return cls(StringIO(data), path)
 
     @classmethod
     def load(cls, file: Path):
         """Parse a D2V from a file."""
-        return cls(file.open(mode="r", encoding="utf8"))
+        return cls(file.open(mode="r", encoding="utf8"), file)
