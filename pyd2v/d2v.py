@@ -6,13 +6,15 @@ from typing import TextIO
 class D2V:
     """DGIndex D2V project file."""
 
-    def __init__(self, f: TextIO, path: Path):
+    def __init__(self, f: TextIO, path: Path = None):
         """
         Parse a d2v.
         :param f: Text IO object of a d2v to be parsed.
         :param path: Path object of the D2V file being parsed.
         :raises ValueError: if parsing fails
         """
+        if not isinstance(path, Path) and path is not None:
+            raise TypeError(f"path must be a Path object (or None), not {type(path)}")
         self.path = path
         self.version = None
         self.videos = None
