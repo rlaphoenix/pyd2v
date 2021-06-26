@@ -124,7 +124,8 @@ class D2V:
         self.data_type = f.readline()[10:]
 
     def __repr__(self):
-        return f"<D2V version={self.version}, data_type={self.data_type}, settings={self.settings}>"
+        return f"<D2V path={self.path!r} version={self.version!r}, data_type={self.data_type!r}, " \
+               f"settings={self.settings!r}>"
 
     @classmethod
     def loads(cls, data: str, path: Path = None):
