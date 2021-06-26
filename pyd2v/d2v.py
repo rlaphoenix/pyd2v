@@ -16,7 +16,12 @@ class D2V:
         :raises ValueError: if parsing fails
         """
         if not isinstance(path, Path) and path is not None:
-            raise TypeError(f"path must be a Path object (or None), not {type(path)}")
+            raise TypeError(f"D2V path must be a Path object (or None), not {type(path)}")
+        if path is not None:
+            if not path.exists():
+                raise ValueError("D2V path does not exist")
+            if not path.is_file():
+                raise ValueError("D2V path is to a directory, not a file")
         self.path = path
         self.version = None
         self.videos = None
@@ -148,6 +153,10 @@ class D2V:
         """
         if not isinstance(file, Path):
             raise TypeError(f"file must be a Path object, not {type(file)}")
+        if not file.exists():
+            raise ValueError("file path does not exist")
+        if not file.is_file():
+            raise ValueError("file path is to a directory, not a file")
         file = cls._get_d2v(file)
         return cls(file.open(mode="r", encoding="utf8"), file)
 
