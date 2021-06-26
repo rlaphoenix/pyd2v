@@ -136,9 +136,19 @@ class D2V:
 
     @classmethod
     def load(cls, file: Path):
-        """Parse a D2V from a file."""
+        """
+        Parse a D2V from a file.
+
+        If file is not a D2V path, it will assume it's a path to a video file and
+        will generate an optimal D2V from the video file. It will also demux said
+        file for D2V generation if it's in a container (e.g., mp4, mkv).
+
+        The generated D2V will be next to the input file, and the direct path will
+        be stored within the new D2V object in the `D2V.path` class variable.
+        """
         if not isinstance(file, Path):
             raise TypeError(f"file must be a Path object, not {type(file)}")
+        file = cls._get_d2v(file)
         return cls(file.open(mode="r", encoding="utf8"), file)
 
     @staticmethod
