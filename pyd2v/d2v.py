@@ -216,9 +216,9 @@ class D2V:
         subprocess.run(
             dgindex + [
                 "-ai" if is_vob else "-i", vid_path.name,
-                "-ia", idct_algo,  # iDCT Algorithm, 5=IEEE-1180 Reference
-                "-fo", field_op,  # Field Operation, 2=Ignore Pulldown Flags
-                "-yr", yuv_to_rgb,  # YUV->RGB, 1=PC Scale
+                "-ia", str(idct_algo),  # iDCT Algorithm, 5=IEEE-1180 Reference
+                "-fo", str(field_op),  # Field Operation, 2=Ignore Pulldown Flags
+                "-yr", str(yuv_to_rgb),  # YUV->RGB, 1=PC Scale
                 "-om", "0",  # Output Method, 0=None (just d2v)
                 "-hide", "-exit",  # start hidden and exit when saved
                 "-o", file_path.stem
