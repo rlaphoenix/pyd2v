@@ -1,5 +1,22 @@
 # Release History
 
+## 1.3.0
+
+### ⚠️Breaking Changes
+
+- `D2V()` object and `loads` now expect a path argument which may be `None` or a Path to a D2V object.
+- `load` now uses the new `_get_d2v()` (explained below) on the input file path (unless it's already a D2V).
+
+### Improvements
+
+- New static method `_get_d2v()` has been created, which can be used to generate a D2V for an input video file by path.
+- Path to the input D2V file is now stored inside the D2V object for referencing (`D2V.path`). As stated above,
+  `D2V()` and `loads` will now ask for an optional Path.
+- All public-facing class methods now enforce the type of the arguments, as well as checks if the file actually exists
+  and is not a directory.
+- Variables formatted into `D2V()`s repr is now also using their reprs as well. This improves its readability.
+- Use consistent double-quotes throughout pyproject.toml.
+
 ## 1.2.0
 
 ### ⚠️Breaking Changes
