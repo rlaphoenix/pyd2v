@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pyd2v"
-version = "1.2.0"
+version = "1.3.0"
 description = "A Python Parser for DGMPGDec's D2V Project Files."
 license = "MIT"
 authors = ["PHOENiX <rlaphoenix@pm.me>"]
