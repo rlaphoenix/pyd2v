@@ -12,7 +12,7 @@ maintainers = ["PHOENiX <rlaphoenix@pm.me>"]
 readme = "README.md"
 homepage = "https://github.com/rlaphoenix/pyd2v"
 repository = "https://github.com/rlaphoenix/pyd2v"
-keywords = ["d2v", "dgindex", "dgmpgdec", "parser", "mpeg"]
+keywords = ["python", "d2v", "dgindex", "dgmpgdec", "mpeg"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
@@ -21,7 +21,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Multimedia :: Video"
 ]
-include = ["LICENSE", "README.md"]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4.0"
