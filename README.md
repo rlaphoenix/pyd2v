@@ -13,34 +13,29 @@ A Python Parser for DGMPGDec's D2V Project Files.
 
     pip install --user pyd2v
 
-### Or, Install from Source
+## Building
 
-#### Requirements
+### Dependencies
 
-1. [pip], v19.0 or newer
-2. [poetry], latest recommended
+- [Python](https://python.org/downloads) (v3.7 or newer)
+- [Poetry](https://python-poetry.org/docs) (latest recommended)
 
-#### Steps
+### Steps
 
-1. `poetry config virtualenvs.in-project true` (optional, but recommended)
-2. `poetry install`
-3. You now have a `.venv` folder in your project root directory. Python and dependencies are installed here.
-4. To use the venv, follow [Poetry Docs: Using your virtual environment]
+1. `git clone https://github.com/rlaphoenix/pyd2v`
+2. `cd pyd2v`
+3. `poetry config virtualenvs.in-project true` (optional, but recommended)
+4. `poetry install`
+5. `d2v --help`
 
-Note: Step 1 is recommended as it creates the virtual environment in one unified location per-project instead of
-hidden away somewhere in Poetry's Cache directory.
-
-  [pip]: <https://pip.pypa.io/en/stable/installing>
-  [poetry]: <https://python-poetry.org/docs>
-  [Poetry Docs: Using your virtual environment]: <https://python-poetry.org/docs/basic-usage/#using-your-virtual-environment>
+For further information on using the Poetry virtual environment, see
+[Using your virtual environment](https://python-poetry.org/docs/basic-usage/#using-your-virtual-environment).
 
 ## Usage
 
-This project can be used programmatically by importing `pyd2v`, and as of version 1.1.0 with a `d2v` call in your terminal.
+This project can be used in Python Scripts by importing `pyd2v`, or in your terminal by calling `d2v`.
 
-## Documentation
-
-### Quick Example
+### Scripting
 
 ```py
 from pyd2v import D2V
@@ -54,17 +49,53 @@ print(d2v.settings["Frame_Rate"])  # frame rate
 print(d2v.data[0])  # print first frame data
 ```
 
-#### Accessible Variables
+### Executable
 
-A successful D2V parse will result in the following options accessible from the D2V object.
+For help information run `d2v --help`. Here's some examples of using the d2v executable:
+
+#### Getting a Setting like the Video Resolution:
+
+```shell
+$ d2v "D:\...\The.IT.Crowd.S01E01.Yesterdays.Jam.PAL.DVD.DD.2.0.MPEG-2.REMUX.d2v" settings.Picture_Size
+[720, 576]
+```
+
+#### Parse the entire D2V to a JSON Pickle:
+
+```shell
+$ d2v "D:\...\The.IT.Crowd.S01E01.Yesterdays.Jam.PAL.DVD.DD.2.0.MPEG-2.REMUX.d2v" --json
+{"py/object": "pyd2v.d2v.D2V", "path": {"py/reduce": [{"py/type": "pathlib.WindowsPath"}, {"py/tuple": ["D:\\", "...",
+"The.IT.Crowd.S01E01.Yesterdays.Jam.PAL.DVD.DD.2.0.MPEG-2.REMUX.d2v"]}]}, "version": 16, "videos": [
+"D:\\...\\The.IT.Crowd.S01E01.Yesterdays.Jam.PAL.DVD.DD.2.0.MPEG-2.REMUX.mpeg"], "settings": {"Stream_Type": 0,
+"MPEG_Type": 2, "iDCT_Algorithm": 5, "YUVRGB_Scale": 1, "Luminance_Filter": {"Gamma": 0, "Offset": 0}, "Clipping":
+[0, 0, 0, 0], "Aspect_Ratio": "16:9", "Picture_Size": [720, 576], "Field_Operation": 2, ... ...
+```
+
+#### Parse only the D2V Headers:
+
+```shell
+$ d2v "D:\...\The.IT.Crowd.S01E01.Yesterdays.Jam.PAL.DVD.DD.2.0.MPEG-2.REMUX.d2v" --pretty
+<D2V path=WindowsPath('D:/.../The.IT.Crowd.S01E01.Yesterdays.Jam.PAL.DVD.DD.2.0.MPEG-2.REMUX.d2v') version=16,
+data_type='100.00% VIDEO\n', settings={'Stream_Type': 0, 'MPEG_Type': 2, 'iDCT_Algorithm': 5, 'YUVRGB_Scale': 1,
+'Luminance_Filter': {'Gamma': 0, 'Offset': 0}, 'Clipping': [0, 0, 0, 0], 'Aspect_Ratio': '16:9', 'Picture_Size':
+[720, 576], 'Field_Operation': 2, 'Frame_Rate': ['25000', [25, 1]], 'Location': {'StartFile': '0', 'StartOffset': '0',
+'EndFile': '0', 'EndOffset': '67d1f'}}>
+```
+
+### D2V Properties
+
+D2V objects contain the following properties:
 
 - version: D2V version, `16` is currently the latest for the original DGIndex which was last updated in 2010.
-- videos: List of the video file paths that were indexed by DGIndex. It will be just a filename if "Use Full Paths" was disabled in DGIndex.
-- settings: Will return various user-provided and auto-evaluated settings based on input data. More information on Settings below.
-- data: Indexing data of the MPEG video stream, Each entry is of an I frame which will describe the following non-I frames up to the next I frame.
+- videos: List of the video file paths that were indexed by DGIndex. It will be just a filename if "Use Full Paths" was
+  disabled in DGIndex.
+- settings: Will return various user-provided and auto-evaluated settings based on input data. More information on
+  Settings below.
+- data: Indexing data of the MPEG video stream, Each entry is of an I frame which will describe the following non-I
+  frames up to the next I frame.
 - data_type: What type of video is most previlent, e.g. `88.4% FILM`, `PAL`, `99.9% NTSC`.
 
-#### Settings
+### Settings
 
 | Auto-evaluated Settings | Possible Values                        | Description                                                                        |
 | ----------------------- | -------------------------------------- | ---------------------------------------------------------------------------------- |
