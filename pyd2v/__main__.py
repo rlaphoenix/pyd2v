@@ -22,7 +22,7 @@ def main(file: Path, key: Optional[str], json: bool, pretty: bool):
     \b
     Access a D2V file via CLI.
     For more information see the project at: https://github.com/rlaphoenix/pyd2v
-    Copyright (c) 2020-2021 PHOENiX — MIT License;
+    Copyright (c) 2020-2023 rlaphoenix — MIT License
 
     \b
     [FILE] is the path to a D2V object you wish to parse.

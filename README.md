@@ -100,3 +100,7 @@ A successful D2V parse will result in the following options accessible from the 
 |                         | 1=Force Film                              |                                                                          |
 |                         | 2=Ignore Pulldown Flags                   |                                                                          |
 | Location                | {StartFile,StartOffset,EndFile,EndOffset} | Defines start and end points for the video selection range.              |
+
+## License
+
+[MIT License](LICENSE)
