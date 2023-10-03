@@ -23,7 +23,7 @@ def main(file: Path, key: Optional[str], json: bool, pretty: bool):
     Access a D2V file via CLI.
 
     \b
-    Version 1.3.0
+    Version 1.3.1
     Copyright (c) 2020-2023 rlaphoenix — MIT License
     For more information see the project at: https://github.com/rlaphoenix/pyd2v
 
