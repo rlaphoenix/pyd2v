@@ -2,6 +2,7 @@
 
 [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](http://makeapullrequest.com)
 [![MIT license](https://img.shields.io/github/license/rlaPHOENiX/pyd2v?style=flat)](https://github.com/rlaphoenix/pyd2v/blob/master/LICENSE)
+[![Build status](https://github.com/rlaphoenix/pyd2v/actions/workflows/ci.yml/badge.svg)](https://github.com/rlaphoenix/pyd2v/actions/workflows/ci.yml)
 [![Python version](https://img.shields.io/pypi/pyversions/pyd2v)](https://pypi.python.org/pypi/pyd2v)
 [![Contributors](https://img.shields.io/github/contributors/rlaphoenix/pyd2v)](https://github.com/rlaphoenix/pyd2v/graphs/contributors)
 [![DeepSource issues](https://deepsource.io/gh/rlaphoenix/pyd2v.svg/?label=active+issues)](https://deepsource.io/gh/rlaphoenix/pyd2v)
