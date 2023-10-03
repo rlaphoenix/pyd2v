@@ -24,9 +24,9 @@ classifiers = [
 include = ["LICENSE", "README.md"]
 
 [tool.poetry.dependencies]
-python = ">=3.6,<4.0"
-click = "^8.0.1"
-jsonpickle = "^2.0.0"
+python = ">=3.7,<4.0"
+click = "^8.1.7"
+jsonpickle = "^3.0.2"
 
 [tool.poetry.scripts]
 d2v = "pyd2v.__main__:main"

@@ -2,7 +2,7 @@
 
 [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](http://makeapullrequest.com)
 [![MIT license](https://img.shields.io/github/license/rlaPHOENiX/pyd2v?style=flat)](https://github.com/rlaphoenix/pyd2v/blob/master/LICENSE)
-[![Python versions](https://img.shields.io/badge/python-3.6%2B-informational)](https://python.org)
+[![Python version](https://img.shields.io/pypi/pyversions/pyd2v)](https://pypi.python.org/pypi/pyd2v)
 [![Codacy rating](https://www.codefactor.io/repository/github/rlaphoenix/pyd2v/badge)](https://www.codefactor.io/repository/github/rlaphoenix/pyd2v)
 [![Contributors](https://img.shields.io/github/contributors/rlaphoenix/pyd2v)](https://github.com/rlaphoenix/pyd2v/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/rlaphoenix/pyd2v)](https://github.com/rlaphoenix/pyd2v/issues)
