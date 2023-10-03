@@ -1,5 +1,17 @@
 # Release History
 
+## 1.3.1
+
+### ⚠️Breaking Changes
+
+- Dropped support for Python 3.6.
+
+### Improvements
+
+- Listed the Version in the CLI help information.
+- Updated the dependencies to their latest versions.
+- Improved Building and Usage Documentation.
+
 ## 1.3.0
 
 ### ⚠️Breaking Changes
