@@ -1,6 +1,8 @@
 # Release History
 
-## 1.3.1
+## 1.4.0 (~~1.3.1~~)
+
+Previously released as 1.3.1 when it should be 1.4.0 as it has a breaking change.
 
 ### ⚠️Breaking Changes
 
